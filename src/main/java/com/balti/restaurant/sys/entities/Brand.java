@@ -11,14 +11,15 @@ import javax.validation.constraints.NotBlank;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.balti.restaurant.sys.abstractClasses.AuditModel;
+
 @Entity
 @Table(name = "brand")
-@EntityListeners(AuditingEntityListener.class)
-public class Brand {
+public class Brand extends AuditModel{
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long brandId;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long brandId;
 	
 	@Column
 	@NotBlank
@@ -29,11 +30,11 @@ public class Brand {
 	private String description;
 
 	
-	public long getBrandId() {
+	public Long getBrandId() {
 		return brandId;
 	}
 
-	public void setBrandId(long brandId) {
+	public void setBrandId(Long brandId) {
 		this.brandId = brandId;
 	}
 

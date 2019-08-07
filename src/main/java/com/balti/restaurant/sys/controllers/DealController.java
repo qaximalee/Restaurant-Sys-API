@@ -16,43 +16,43 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.balti.restaurant.sys.entities.Customer;
+import com.balti.restaurant.sys.entities.Deal;
 import com.balti.restaurant.sys.exceptions.ResourceNotFoundException;
-import com.balti.restaurant.sys.services.CustomerService;
+import com.balti.restaurant.sys.services.DealService;
 
 @RestController
-@RequestMapping("/customer-api")
+@RequestMapping("/deal-api")
 public class DealController {
 	  
   @Autowired
-  private CustomerService customerService;
+  private DealService dealService;
   
-  @GetMapping("/customers")
-  public List<Customer> getAllUsers() {
-    return customerService.getAll();
+  @GetMapping("/deals")
+  public List<Deal> getAllUsers() {
+    return dealService.getAll();
   }
   
-  @GetMapping("/customers/{customerId}")
-  public ResponseEntity<Customer> getUsersById(@PathVariable(value = "customerId") Long customerId)
+  @GetMapping("/deals/{dealId}")
+  public ResponseEntity<Deal> getUsersById(@PathVariable(value = "dealId") Long dealId)
       throws ResourceNotFoundException {
-	  return customerService.getSingle(customerId);
+	  return dealService.getSingle(dealId);
   }
   
-  @PostMapping("/customers")
-  public Customer createCustomer(@Valid @RequestBody Customer customer) {
-    return customerService.create(customer);
+  @PostMapping("/deals")
+  public Deal createDeal(@Valid @RequestBody Deal deal) {
+    return dealService.create(deal);
   }
  
-  @PostMapping("/customers/update/{id}")
-  public ResponseEntity<Customer> updateCustomer(
-      @PathVariable(value = "id") Long customerId, @Valid @RequestBody Customer customerDetails)
+  @PostMapping("/deals/update/{id}")
+  public ResponseEntity<Deal> updateDeal(
+      @PathVariable(value = "id") Long dealId, @Valid @RequestBody Deal dealDetails)
       throws ResourceNotFoundException {
 	  
-	  return customerService.update(customerId, customerDetails);
+	  return dealService.update(dealId, dealDetails);
   }
   
-  @PostMapping("/customers/delete/{id}")
-  public Map<String, Boolean> deleteCustomer(@PathVariable(value = "id") Long customerId) throws Exception {
-	  return customerService.delete(customerId);
+  @PostMapping("/deals/delete/{id}")
+  public Map<String, Boolean> deleteDeal(@PathVariable(value = "id") Long dealId) throws Exception {
+	  return dealService.delete(dealId);
   }
 }

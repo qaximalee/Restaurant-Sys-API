@@ -16,43 +16,43 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.balti.restaurant.sys.entities.Customer;
+import com.balti.restaurant.sys.entities.Category;
 import com.balti.restaurant.sys.exceptions.ResourceNotFoundException;
-import com.balti.restaurant.sys.services.CustomerService;
+import com.balti.restaurant.sys.services.CategoryService;
 
 @RestController
-@RequestMapping("/customer-api")
+@RequestMapping("/category-api")
 public class CategoryController {
 	  
   @Autowired
-  private CustomerService customerService;
+  private CategoryService categoryService;
   
-  @GetMapping("/customers")
-  public List<Customer> getAllUsers() {
-    return customerService.getAll();
+  @GetMapping("/categories")
+  public List<Category> getAllUsers() {
+    return categoryService.getAll();
   }
   
-  @GetMapping("/customers/{customerId}")
-  public ResponseEntity<Customer> getUsersById(@PathVariable(value = "customerId") Long customerId)
+  @GetMapping("/categories/{categoryId}")
+  public ResponseEntity<Category> getUsersById(@PathVariable(value = "categoryId") Long categoryId)
       throws ResourceNotFoundException {
-	  return customerService.getSingle(customerId);
+	  return categoryService.getSingle(categoryId);
   }
   
-  @PostMapping("/customers")
-  public Customer createCustomer(@Valid @RequestBody Customer customer) {
-    return customerService.create(customer);
+  @PostMapping("/categories")
+  public Category createCategory(@Valid @RequestBody Category category) {
+    return categoryService.create(category);
   }
  
-  @PostMapping("/customers/update/{id}")
-  public ResponseEntity<Customer> updateCustomer(
-      @PathVariable(value = "id") Long customerId, @Valid @RequestBody Customer customerDetails)
+  @PostMapping("/categories/update/{id}")
+  public ResponseEntity<Category> updateCategory(
+      @PathVariable(value = "id") Long categoryId, @Valid @RequestBody Category categoryDetails)
       throws ResourceNotFoundException {
 	  
-	  return customerService.update(customerId, customerDetails);
+	  return categoryService.update(categoryId, categoryDetails);
   }
   
-  @PostMapping("/customers/delete/{id}")
-  public Map<String, Boolean> deleteCustomer(@PathVariable(value = "id") Long customerId) throws Exception {
-	  return customerService.delete(customerId);
+  @PostMapping("/categories/delete/{id}")
+  public Map<String, Boolean> deleteCategory(@PathVariable(value = "id") Long categoryId) throws Exception {
+	  return categoryService.delete(categoryId);
   }
 }

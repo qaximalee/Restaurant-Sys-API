@@ -12,15 +12,16 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.balti.restaurant.sys.abstractClasses.AuditModel;
+
 
 @Entity
 @Table(name = "deal")
-@EntityListeners(AuditingEntityListener.class)
-public class Deal {
+public class Deal extends AuditModel{
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long dealId;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long dealId;
 	
 	@Column
 	@NotBlank
@@ -34,7 +35,7 @@ public class Deal {
 	@NotNull
 	private Double price;
 
-	public long getDealId() {
+	public Long getDealId() {
 		return dealId;
 	}
 
@@ -50,7 +51,7 @@ public class Deal {
 		return price;
 	}
 
-	public void setDealId(long dealId) {
+	public void setDealId(Long dealId) {
 		this.dealId = dealId;
 	}
 

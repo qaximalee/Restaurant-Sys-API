@@ -15,14 +15,15 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.balti.restaurant.sys.abstractClasses.AuditModel;
+
 @Entity
 @Table(name = "customer")
-@EntityListeners(AuditingEntityListener.class)
-public class Customer {
+public class Customer extends AuditModel{
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long customerId;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long customerId;
 
 	@Column
 	@NotBlank
@@ -60,16 +61,8 @@ public class Customer {
 	@NotBlank
 	private String country;
 
-	@Column
-	@CreationTimestamp
-	private Date createdAt;
 
-	@Column
-	@UpdateTimestamp
-	private Date updatedAt;
-	
-
-	public long getCustomerId() {
+	public Long getCustomerId() {
 		return customerId;
 	}
 
@@ -85,15 +78,7 @@ public class Customer {
 		return email;
 	}
 
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-
-	public Date getUpdatedAt() {
-		return updatedAt;
-	}
-
-	public void setCustomerId(long customerId) {
+	public void setCustomerId(Long customerId) {
 		this.customerId = customerId;
 	}
 
@@ -107,14 +92,6 @@ public class Customer {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public void setUpdatedAt(Date updatedAt) {
-		this.updatedAt = updatedAt;
 	}
 
 	public String getPassword() {
@@ -169,8 +146,7 @@ public class Customer {
 	public String toString() {
 		return "Customer [customerId=" + customerId + ", firstName=" + firstName + ", lastName=" + lastName + ", email="
 				+ email + ", password=" + password + ", address=" + address + ", city=" + city + ", country=" + country
-				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", updatedBy="
-				+ "]";
+				+ ", createdAt=" + "]";
 	}
 	
 	

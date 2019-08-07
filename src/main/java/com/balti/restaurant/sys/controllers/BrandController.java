@@ -16,43 +16,43 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.balti.restaurant.sys.entities.Customer;
+import com.balti.restaurant.sys.entities.Brand;
 import com.balti.restaurant.sys.exceptions.ResourceNotFoundException;
-import com.balti.restaurant.sys.services.CustomerService;
+import com.balti.restaurant.sys.services.BrandService;
 
 @RestController
-@RequestMapping("/customer-api")
+@RequestMapping("/brand-api")
 public class BrandController {
 	  
   @Autowired
-  private CustomerService customerService;
+  private BrandService brandService;
   
-  @GetMapping("/customers")
-  public List<Customer> getAllUsers() {
-    return customerService.getAll();
+  @GetMapping("/brands")
+  public List<Brand> getAllUsers() {
+    return brandService.getAll();
   }
   
-  @GetMapping("/customers/{customerId}")
-  public ResponseEntity<Customer> getUsersById(@PathVariable(value = "customerId") Long customerId)
+  @GetMapping("/brands/{brandId}")
+  public ResponseEntity<Brand> getUsersById(@PathVariable(value = "brandId") Long brandId)
       throws ResourceNotFoundException {
-	  return customerService.getSingle(customerId);
+	  return brandService.getSingle(brandId);
   }
   
-  @PostMapping("/customers")
-  public Customer createCustomer(@Valid @RequestBody Customer customer) {
-    return customerService.create(customer);
+  @PostMapping("/brands")
+  public Brand createBrand(@Valid @RequestBody Brand brand) {
+    return brandService.create(brand);
   }
  
-  @PostMapping("/customers/update/{id}")
-  public ResponseEntity<Customer> updateCustomer(
-      @PathVariable(value = "id") Long customerId, @Valid @RequestBody Customer customerDetails)
+  @PostMapping("/brands/update/{id}")
+  public ResponseEntity<Brand> updateBrand(
+      @PathVariable(value = "id") Long brandId, @Valid @RequestBody Brand brandDetails)
       throws ResourceNotFoundException {
 	  
-	  return customerService.update(customerId, customerDetails);
+	  return brandService.update(brandId, brandDetails);
   }
   
-  @PostMapping("/customers/delete/{id}")
-  public Map<String, Boolean> deleteCustomer(@PathVariable(value = "id") Long customerId) throws Exception {
-	  return customerService.delete(customerId);
+  @PostMapping("/brands/delete/{id}")
+  public Map<String, Boolean> deleteBrand(@PathVariable(value = "id") Long brandId) throws Exception {
+	  return brandService.delete(brandId);
   }
 }

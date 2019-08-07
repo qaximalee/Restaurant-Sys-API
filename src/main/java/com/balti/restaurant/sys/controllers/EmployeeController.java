@@ -16,43 +16,43 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.balti.restaurant.sys.entities.Customer;
+import com.balti.restaurant.sys.entities.Employee;
 import com.balti.restaurant.sys.exceptions.ResourceNotFoundException;
-import com.balti.restaurant.sys.services.CustomerService;
+import com.balti.restaurant.sys.services.EmployeeService;
 
 @RestController
-@RequestMapping("/customer-api")
+@RequestMapping("/employee-api")
 public class EmployeeController {
 	  
   @Autowired
-  private CustomerService customerService;
+  private EmployeeService employeeService;
   
-  @GetMapping("/customers")
-  public List<Customer> getAllUsers() {
-    return customerService.getAll();
+  @GetMapping("/employees")
+  public List<Employee> getAllUsers() {
+    return employeeService.getAll();
   }
   
-  @GetMapping("/customers/{customerId}")
-  public ResponseEntity<Customer> getUsersById(@PathVariable(value = "customerId") Long customerId)
+  @GetMapping("/employees/{employeeId}")
+  public ResponseEntity<Employee> getUsersById(@PathVariable(value = "employeeId") Long employeeId)
       throws ResourceNotFoundException {
-	  return customerService.getSingle(customerId);
+	  return employeeService.getSingle(employeeId);
   }
   
-  @PostMapping("/customers")
-  public Customer createCustomer(@Valid @RequestBody Customer customer) {
-    return customerService.create(customer);
+  @PostMapping("/employees")
+  public Employee createEmployee(@Valid @RequestBody Employee employee) {
+    return employeeService.create(employee);
   }
  
-  @PostMapping("/customers/update/{id}")
-  public ResponseEntity<Customer> updateCustomer(
-      @PathVariable(value = "id") Long customerId, @Valid @RequestBody Customer customerDetails)
+  @PostMapping("/employees/update/{id}")
+  public ResponseEntity<Employee> updateEmployee(
+      @PathVariable(value = "id") Long employeeId, @Valid @RequestBody Employee employeeDetails)
       throws ResourceNotFoundException {
 	  
-	  return customerService.update(customerId, customerDetails);
+	  return employeeService.update(employeeId, employeeDetails);
   }
   
-  @PostMapping("/customers/delete/{id}")
-  public Map<String, Boolean> deleteCustomer(@PathVariable(value = "id") Long customerId) throws Exception {
-	  return customerService.delete(customerId);
+  @PostMapping("/employees/delete/{id}")
+  public Map<String, Boolean> deleteEmployee(@PathVariable(value = "id") Long employeeId) throws Exception {
+	  return employeeService.delete(employeeId);
   }
 }

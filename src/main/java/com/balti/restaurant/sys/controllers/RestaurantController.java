@@ -16,43 +16,43 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.balti.restaurant.sys.entities.Customer;
+import com.balti.restaurant.sys.entities.Restaurant;
 import com.balti.restaurant.sys.exceptions.ResourceNotFoundException;
-import com.balti.restaurant.sys.services.CustomerService;
+import com.balti.restaurant.sys.services.RestaurantService;
 
 @RestController
-@RequestMapping("/customer-api")
+@RequestMapping("/restaurant-api")
 public class RestaurantController {
 	  
   @Autowired
-  private CustomerService customerService;
+  private RestaurantService restaurantService;
   
-  @GetMapping("/customers")
-  public List<Customer> getAllUsers() {
-    return customerService.getAll();
+  @GetMapping("/restaurants")
+  public List<Restaurant> getAllUsers() {
+    return restaurantService.getAll();
   }
   
-  @GetMapping("/customers/{customerId}")
-  public ResponseEntity<Customer> getUsersById(@PathVariable(value = "customerId") Long customerId)
+  @GetMapping("/restaurants/{restaurantId}")
+  public ResponseEntity<Restaurant> getUsersById(@PathVariable(value = "restaurantId") Long restaurantId)
       throws ResourceNotFoundException {
-	  return customerService.getSingle(customerId);
+	  return restaurantService.getSingle(restaurantId);
   }
   
-  @PostMapping("/customers")
-  public Customer createCustomer(@Valid @RequestBody Customer customer) {
-    return customerService.create(customer);
+  @PostMapping("/restaurants")
+  public Restaurant createRestaurant(@Valid @RequestBody Restaurant restaurant) {
+    return restaurantService.create(restaurant);
   }
  
-  @PostMapping("/customers/update/{id}")
-  public ResponseEntity<Customer> updateCustomer(
-      @PathVariable(value = "id") Long customerId, @Valid @RequestBody Customer customerDetails)
+  @PostMapping("/restaurants/update/{id}")
+  public ResponseEntity<Restaurant> updateRestaurant(
+      @PathVariable(value = "id") Long restaurantId, @Valid @RequestBody Restaurant restaurantDetails)
       throws ResourceNotFoundException {
 	  
-	  return customerService.update(customerId, customerDetails);
+	  return restaurantService.update(restaurantId, restaurantDetails);
   }
   
-  @PostMapping("/customers/delete/{id}")
-  public Map<String, Boolean> deleteCustomer(@PathVariable(value = "id") Long customerId) throws Exception {
-	  return customerService.delete(customerId);
+  @PostMapping("/restaurants/delete/{id}")
+  public Map<String, Boolean> deleteRestaurant(@PathVariable(value = "id") Long restaurantId) throws Exception {
+	  return restaurantService.delete(restaurantId);
   }
 }
