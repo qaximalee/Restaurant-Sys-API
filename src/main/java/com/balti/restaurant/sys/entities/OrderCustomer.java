@@ -12,12 +12,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.balti.restaurant.sys.abstractClasses.AuditModel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
 @Table
-public class OrderCustomer {
+public class OrderCustomer extends AuditModel{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

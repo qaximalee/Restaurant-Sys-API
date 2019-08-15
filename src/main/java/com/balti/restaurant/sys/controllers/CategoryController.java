@@ -28,12 +28,12 @@ public class CategoryController {
   private CategoryService categoryService;
   
   @GetMapping("/categories")
-  public List<Category> getAllUsers() {
+  public List<Category> getAllCategories() {
     return categoryService.getAll();
   }
   
   @GetMapping("/categories/{categoryId}")
-  public ResponseEntity<Category> getUsersById(@PathVariable(value = "categoryId") Long categoryId)
+  public ResponseEntity<Category> getCategoryById(@PathVariable(value = "categoryId") Long categoryId)
       throws ResourceNotFoundException {
 	  return categoryService.getSingle(categoryId);
   }

@@ -28,12 +28,12 @@ public class DealController {
   private DealService dealService;
   
   @GetMapping("/deals")
-  public List<Deal> getAllUsers() {
+  public List<Deal> getAllDeals() {
     return dealService.getAll();
   }
   
   @GetMapping("/deals/{dealId}")
-  public ResponseEntity<Deal> getUsersById(@PathVariable(value = "dealId") Long dealId)
+  public ResponseEntity<Deal> getDealById(@PathVariable(value = "dealId") Long dealId)
       throws ResourceNotFoundException {
 	  return dealService.getSingle(dealId);
   }

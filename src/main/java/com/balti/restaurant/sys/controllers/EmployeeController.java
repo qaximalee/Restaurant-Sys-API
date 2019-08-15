@@ -28,12 +28,12 @@ public class EmployeeController {
   private EmployeeService employeeService;
   
   @GetMapping("/employees")
-  public List<Employee> getAllUsers() {
+  public List<Employee> getAllEmployees() {
     return employeeService.getAll();
   }
   
   @GetMapping("/employees/{employeeId}")
-  public ResponseEntity<Employee> getUsersById(@PathVariable(value = "employeeId") Long employeeId)
+  public ResponseEntity<Employee> getEmployeeById(@PathVariable(value = "employeeId") Long employeeId)
       throws ResourceNotFoundException {
 	  return employeeService.getSingle(employeeId);
   }

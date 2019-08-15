@@ -28,12 +28,12 @@ public class CustomerController {
   private CustomerService customerService;
   
   @GetMapping("/customers")
-  public List<Customer> getAllUsers() {
+  public List<Customer> getAllCustomers() {
     return customerService.getAll();
   }
   
   @GetMapping("/customers/{customerId}")
-  public ResponseEntity<Customer> getUsersById(@PathVariable(value = "customerId") Long customerId)
+  public ResponseEntity<Customer> getCustomerById(@PathVariable(value = "customerId") Long customerId)
       throws ResourceNotFoundException {
 	  return customerService.getSingle(customerId);
   }

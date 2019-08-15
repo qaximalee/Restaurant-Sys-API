@@ -28,12 +28,12 @@ public class BrandController {
   private BrandService brandService;
   
   @GetMapping("/brands")
-  public List<Brand> getAllUsers() {
+  public List<Brand> getAllBrands() {
     return brandService.getAll();
   }
   
   @GetMapping("/brands/{brandId}")
-  public ResponseEntity<Brand> getUsersById(@PathVariable(value = "brandId") Long brandId)
+  public ResponseEntity<Brand> getBrandById(@PathVariable(value = "brandId") Long brandId)
       throws ResourceNotFoundException {
 	  return brandService.getSingle(brandId);
   }

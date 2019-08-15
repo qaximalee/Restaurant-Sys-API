@@ -31,7 +31,7 @@ public class ServeTable extends AuditModel{
 	@NotBlank
 	private String block;
 	
-	@Column
+	
 	@ManyToOne
 	private Employee employees;
 

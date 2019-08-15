@@ -10,56 +10,52 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.balti.restaurant.sys.entities.Customer;
+import com.balti.restaurant.sys.entities.OrderCustomer;
 import com.balti.restaurant.sys.exceptions.ResourceNotFoundException;
-import com.balti.restaurant.sys.repositories.CustomerRepository;
+import com.balti.restaurant.sys.repositories.OrderRepository;
 
 @Service
 public class OrderService {
 	
-	private final String NOT_FOUND = "Customer not found on :: "; 
+	private final String NOT_FOUND = "Order not found on :: "; 
 
 	@Autowired
-	private CustomerRepository customerRepository;
+	private OrderRepository orderRepository;
 	
 	
-	public List<Customer> getAll(){
-		return customerRepository.findAll();
+	public List<OrderCustomer> getAll(){
+		return orderRepository.findAll();
 	}
 	
-	public ResponseEntity<Customer> getSingle(Long id){
+	public ResponseEntity<OrderCustomer> getSingle(Long id){
 		
-		Customer customer = customerRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND + id));
+		OrderCustomer order = orderRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND + id));
 		
-		return ResponseEntity.ok().body(customer);
+		return ResponseEntity.ok().body(order);
 	}
 	
-	public Customer create(Customer customer){
-		return customerRepository.save(customer);
+	public OrderCustomer create(OrderCustomer order){
+		return orderRepository.save(order);
 	}
 	
-	public ResponseEntity<Customer> update(Long id, Customer details){
-		Customer customer = customerRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(NOT_FOUND + id));
+	public ResponseEntity<OrderCustomer> update(Long id, OrderCustomer details){
+		OrderCustomer order = orderRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(NOT_FOUND + id));
 		
-		customer.setEmail(details.getEmail());
-	    customer.setLastName(details.getLastName());
-	    customer.setFirstName(details.getFirstName());
-	    customer.setAddress(details.getAddress());
-	    customer.setCity(details.getCity());
-	    customer.setCountry(details.getCountry());
-	    customer.setImageUri(details.getImageUri());
-	    customer.setMobileNo(details.getMobileNo());
-	    customer.setUpdatedAt(new Date());
+		order.setStatus(details.getStatus());
+		order.setBill(details.getBill());
+		order.setCustomers(new Customer());
+	    order.setUpdatedAt(new Date());
 	    
-	    final Customer updatedCustomer = customerRepository.save(customer);
+	    final OrderCustomer updatedOrder = orderRepository.save(order);
  	    
-	    return ResponseEntity.ok().body(updatedCustomer);
+	    return ResponseEntity.ok().body(updatedOrder);
 		
 	}
 	
 	public Map<String, Boolean> delete(Long id){
-		Customer customer = customerRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(NOT_FOUND + id));
+		OrderCustomer order = orderRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(NOT_FOUND + id));
 		
-		customerRepository.delete(customer);
+		orderRepository.delete(order);
 		
 		Map<String, Boolean> response = new HashMap<>();
 		response.put("deleted", true);

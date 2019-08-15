@@ -28,12 +28,12 @@ public class RestaurantController {
   private RestaurantService restaurantService;
   
   @GetMapping("/restaurants")
-  public List<Restaurant> getAllUsers() {
+  public List<Restaurant> getAllRestaurants() {
     return restaurantService.getAll();
   }
   
   @GetMapping("/restaurants/{restaurantId}")
-  public ResponseEntity<Restaurant> getUsersById(@PathVariable(value = "restaurantId") Long restaurantId)
+  public ResponseEntity<Restaurant> getRestaurantById(@PathVariable(value = "restaurantId") Long restaurantId)
       throws ResourceNotFoundException {
 	  return restaurantService.getSingle(restaurantId);
   }
