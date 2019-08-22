@@ -1,19 +1,16 @@
 package com.balti.restaurant.sys.entities;
 
-import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.balti.restaurant.sys.abstractClasses.AuditModel;
 
@@ -60,8 +57,8 @@ public class Customer extends AuditModel{
 	@Column
 	@NotBlank
 	private String country;
-
-
+	
+	
 	public Long getCustomerId() {
 		return customerId;
 	}
@@ -140,14 +137,5 @@ public class Customer extends AuditModel{
 
 	public void setMobileNo(String mobileNo) {
 		this.mobileNo = mobileNo;
-	}
-
-	@Override
-	public String toString() {
-		return "Customer [customerId=" + customerId + ", firstName=" + firstName + ", lastName=" + lastName + ", email="
-				+ email + ", password=" + password + ", address=" + address + ", city=" + city + ", country=" + country
-				+ ", createdAt=" + "]";
-	}
-	
-	
+	}	
 }

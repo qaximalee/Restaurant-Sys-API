@@ -38,17 +38,17 @@ public class OrderController {
 	  return orderService.getSingle(orderId);
   }
   
-  @PostMapping("/orders")
-  public OrderCustomer createOrder(@Valid @RequestBody OrderCustomer order) {
-    return orderService.create(order);
+  @PostMapping("/orders/{customerId}")
+  public OrderCustomer createOrder(@PathVariable(value = "customerId") Long customerId, @Valid @RequestBody OrderCustomer order) {
+    return orderService.create(customerId,order);
   }
  
-  @PostMapping("/orders/update/{id}")
-  public ResponseEntity<OrderCustomer> updateOrder(
+  @PostMapping("/orders/update/{customerId}/{id}")
+  public ResponseEntity<OrderCustomer> updateOrder(@PathVariable(value = "customerId") Long customerId,
       @PathVariable(value = "id") Long orderId, @Valid @RequestBody OrderCustomer orderDetails)
       throws ResourceNotFoundException {
 	  
-	  return orderService.update(orderId, orderDetails);
+	  return orderService.update(customerId, orderId, orderDetails);
   }
   
   @PostMapping("/orders/delete/{id}")

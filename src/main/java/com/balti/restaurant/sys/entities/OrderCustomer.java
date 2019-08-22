@@ -34,7 +34,6 @@ public class OrderCustomer extends AuditModel{
 	
 	@ManyToOne
 	@JoinColumn(name = "customer_id", nullable = false)
-	@JsonIgnore
 	private Customer customers;
 
 	public Long getOrderId() {

@@ -12,12 +12,11 @@ import org.springframework.stereotype.Service;
 import com.balti.restaurant.sys.entities.Customer;
 import com.balti.restaurant.sys.exceptions.ResourceNotFoundException;
 import com.balti.restaurant.sys.repositories.CustomerRepository;
+import com.balti.restaurant.sys.texts.ExceptionStrings;
 
 @Service
 public class CustomerService {
 	
-	private final String NOT_FOUND = "Customer not found on :: "; 
-
 	@Autowired
 	private CustomerRepository customerRepository;
 	
@@ -28,7 +27,7 @@ public class CustomerService {
 	
 	public ResponseEntity<Customer> getSingle(Long id){
 		
-		Customer customer = customerRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND + id));
+		Customer customer = customerRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(ExceptionStrings.CUSTOMER_NOT_FOUND + id));
 		
 		return ResponseEntity.ok().body(customer);
 	}
@@ -38,7 +37,7 @@ public class CustomerService {
 	}
 	
 	public ResponseEntity<Customer> update(Long id, Customer details){
-		Customer customer = customerRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(NOT_FOUND + id));
+		Customer customer = customerRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(ExceptionStrings.CUSTOMER_NOT_FOUND + id));
 		
 		customer.setEmail(details.getEmail());
 	    customer.setLastName(details.getLastName());
@@ -57,7 +56,7 @@ public class CustomerService {
 	}
 	
 	public Map<String, Boolean> delete(Long id){
-		Customer customer = customerRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(NOT_FOUND + id));
+		Customer customer = customerRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(ExceptionStrings.CUSTOMER_NOT_FOUND + id));
 		
 		customerRepository.delete(customer);
 		

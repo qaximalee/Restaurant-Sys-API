@@ -5,8 +5,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.balti.restaurant.sys.abstractClasses.AuditModel;
 
@@ -16,7 +19,7 @@ public class Item extends AuditModel{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long itemId;
 	
 	@Column
 	@NotBlank
@@ -27,11 +30,23 @@ public class Item extends AuditModel{
 	private String description;
 	
 	@Column
-	@NotBlank
+	@NotNull
 	private Double price;
-
-	public Long getId() {
-		return id;
+	
+	@ManyToOne
+	@JoinColumn(name = "deal_id")
+	private Deal deal;
+	
+	@ManyToOne
+	@JoinColumn(name = "brand_id")
+	private Brand brand;
+	
+	@ManyToOne
+	@JoinColumn(name = "category_id")
+	private Category category;
+		
+	public Long getItemId() {
+		return itemId;
 	}
 
 	public String getName() {
@@ -46,8 +61,8 @@ public class Item extends AuditModel{
 		return price;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setItemId(Long id) {
+		this.itemId = id;
 	}
 
 	public void setName(String name) {
@@ -61,4 +76,30 @@ public class Item extends AuditModel{
 	public void setPrice(Double price) {
 		this.price = price;
 	}
+
+	public Deal getDeal() {
+		return deal;
+	}
+
+	public Brand getBrand() {
+		return brand;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setDeal(Deal deal) {
+		this.deal = deal;
+	}
+
+	public void setBrand(Brand brand) {
+		this.brand = brand;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+	
+	
 }

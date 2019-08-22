@@ -9,61 +9,102 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.balti.restaurant.sys.entities.Customer;
+import com.balti.restaurant.sys.entities.Brand;
+import com.balti.restaurant.sys.entities.Category;
+import com.balti.restaurant.sys.entities.Deal;
+import com.balti.restaurant.sys.entities.Item;
 import com.balti.restaurant.sys.exceptions.ResourceNotFoundException;
-import com.balti.restaurant.sys.repositories.CustomerRepository;
+import com.balti.restaurant.sys.repositories.BrandRepository;
+import com.balti.restaurant.sys.repositories.CategoryRepository;
+import com.balti.restaurant.sys.repositories.DealRepository;
+import com.balti.restaurant.sys.repositories.ItemRepository;
+import com.balti.restaurant.sys.texts.ExceptionStrings;
 
 @Service
 public class ItemService {
 	
-	private final String NOT_FOUND = "Customer not found on :: "; 
+	Brand brand = null;
+	Category category = null;
+	Deal deal = null;
 
 	@Autowired
-	private CustomerRepository customerRepository;
+	private ItemRepository itemRepository;
 	
+	@Autowired
+	private BrandRepository brandRepository;
 	
-	public List<Customer> getAll(){
-		return customerRepository.findAll();
+	@Autowired
+	private CategoryRepository categoryRepository;
+	
+	@Autowired
+	private DealRepository dealRepository;
+	
+	public List<Item> getAll(){
+		return itemRepository.findAll();
 	}
 	
-	public ResponseEntity<Customer> getSingle(Long id){
+	public ResponseEntity<Item> getSingle(Long id){
 		
-		Customer customer = customerRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND + id));
+		Item item = itemRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(ExceptionStrings.ITEM_NOT_FOUND + id));
 		
-		return ResponseEntity.ok().body(customer);
+		return ResponseEntity.ok().body(item);
 	}
 	
-	public Customer create(Customer customer){
-		return customerRepository.save(customer);
+	public Item create(Long brandId, Long categoryId, Long dealId, Item item){
+		
+		checkAndInitialize(brandId, categoryId, dealId);
+		
+		item.setBrand(brand);
+		brand = null;
+		item.setCategory(category);
+		category = null;
+		item.setDeal(deal);
+		deal = null;
+				
+		return itemRepository.save(item);
 	}
 	
-	public ResponseEntity<Customer> update(Long id, Customer details){
-		Customer customer = customerRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(NOT_FOUND + id));
+	public ResponseEntity<Item> update(Long brandId, Long categoryId, Long dealId, Long id, Item details){
+		Item item = itemRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(ExceptionStrings.ITEM_NOT_FOUND + id));
 		
-		customer.setEmail(details.getEmail());
-	    customer.setLastName(details.getLastName());
-	    customer.setFirstName(details.getFirstName());
-	    customer.setAddress(details.getAddress());
-	    customer.setCity(details.getCity());
-	    customer.setCountry(details.getCountry());
-	    customer.setImageUri(details.getImageUri());
-	    customer.setMobileNo(details.getMobileNo());
-	    customer.setUpdatedAt(new Date());
+		checkAndInitialize(brandId, categoryId, dealId);
+		
+		item.setBrand(brand);
+		brand = null;
+		item.setCategory(category);
+		category = null;
+		item.setDeal(deal);
+		deal = null;
+				
+	    item.setUpdatedAt(new Date());
 	    
-	    final Customer updatedCustomer = customerRepository.save(customer);
+	    final Item updatedItem = itemRepository.save(item);
  	    
-	    return ResponseEntity.ok().body(updatedCustomer);
+	    return ResponseEntity.ok().body(updatedItem);
 		
 	}
 	
 	public Map<String, Boolean> delete(Long id){
-		Customer customer = customerRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(NOT_FOUND + id));
+		Item item = itemRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(ExceptionStrings.ITEM_NOT_FOUND + id));
 		
-		customerRepository.delete(customer);
+		itemRepository.delete(item);
 		
 		Map<String, Boolean> response = new HashMap<>();
 		response.put("deleted", true);
 		return response;
-	}
+	}		
+	
+	private void checkAndInitialize(Long brandId, Long categoryId, Long dealId){
+		if(brandId != 0){
+			brand = brandRepository.findById(brandId).orElseThrow(() -> new ResourceNotFoundException(ExceptionStrings.BRAND_NOT_FOUND + brandId));
+		}
 		
+		if(categoryId != 0){
+			category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException(ExceptionStrings.CATEGORY_NOT_FOUND + categoryId));
+		}
+		
+		if(dealId != 0){
+			deal = dealRepository.findById(dealId).orElseThrow(() -> new ResourceNotFoundException(ExceptionStrings.DEAL_NOT_FOUND + dealId));
+		}
+	}
 }

@@ -12,11 +12,10 @@ import org.springframework.stereotype.Service;
 import com.balti.restaurant.sys.entities.Deal;
 import com.balti.restaurant.sys.exceptions.ResourceNotFoundException;
 import com.balti.restaurant.sys.repositories.DealRepository;
+import com.balti.restaurant.sys.texts.ExceptionStrings;
 
 @Service
 public class DealService {
-	
-	private final String NOT_FOUND = "Deal not found on :: "; 
 
 	@Autowired
 	private DealRepository dealRepository;
@@ -28,7 +27,7 @@ public class DealService {
 	
 	public ResponseEntity<Deal> getSingle(Long id){
 		
-		Deal deal = dealRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND + id));
+		Deal deal = dealRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(ExceptionStrings.DEAL_NOT_FOUND + id));
 		
 		return ResponseEntity.ok().body(deal);
 	}
@@ -38,7 +37,7 @@ public class DealService {
 	}
 	
 	public ResponseEntity<Deal> update(Long id, Deal details){
-		Deal deal = dealRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(NOT_FOUND + id));
+		Deal deal = dealRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(ExceptionStrings.DEAL_NOT_FOUND + id));
 		
 		deal.setName(details.getName());
 		deal.setDescription(details.getDescription());
@@ -52,7 +51,7 @@ public class DealService {
 	}
 	
 	public Map<String, Boolean> delete(Long id){
-		Deal deal = dealRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(NOT_FOUND + id));
+		Deal deal = dealRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(ExceptionStrings.DEAL_NOT_FOUND + id));
 		
 		dealRepository.delete(deal);
 		

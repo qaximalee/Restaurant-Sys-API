@@ -12,16 +12,19 @@ import org.springframework.stereotype.Service;
 import com.balti.restaurant.sys.entities.Customer;
 import com.balti.restaurant.sys.entities.OrderCustomer;
 import com.balti.restaurant.sys.exceptions.ResourceNotFoundException;
+import com.balti.restaurant.sys.repositories.CustomerRepository;
 import com.balti.restaurant.sys.repositories.OrderRepository;
+import com.balti.restaurant.sys.texts.ExceptionStrings;
 
 @Service
 public class OrderService {
-	
-	private final String NOT_FOUND = "Order not found on :: "; 
 
 	@Autowired
 	private OrderRepository orderRepository;
 	
+	@Autowired
+	private CustomerRepository customerRepository;
+		
 	
 	public List<OrderCustomer> getAll(){
 		return orderRepository.findAll();
@@ -29,21 +32,27 @@ public class OrderService {
 	
 	public ResponseEntity<OrderCustomer> getSingle(Long id){
 		
-		OrderCustomer order = orderRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND + id));
+		OrderCustomer order = orderRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(ExceptionStrings.ORDER_NOT_FOUND + id));
 		
 		return ResponseEntity.ok().body(order);
 	}
 	
-	public OrderCustomer create(OrderCustomer order){
+	public OrderCustomer create(Long customerId, OrderCustomer order){
+		Customer customer = customerRepository.findById(customerId).orElseThrow(()-> new ResourceNotFoundException(ExceptionStrings.CUSTOMER_NOT_FOUND +customerId));
+		
+		order.setCustomers(customer);
+		
 		return orderRepository.save(order);
 	}
 	
-	public ResponseEntity<OrderCustomer> update(Long id, OrderCustomer details){
-		OrderCustomer order = orderRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(NOT_FOUND + id));
+	public ResponseEntity<OrderCustomer> update(Long customerId, Long id, OrderCustomer details){
+		OrderCustomer order = orderRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(ExceptionStrings.ORDER_NOT_FOUND + id));
 		
+		Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new ResourceNotFoundException(ExceptionStrings.CUSTOMER_NOT_FOUND + id));
+				
 		order.setStatus(details.getStatus());
 		order.setBill(details.getBill());
-		order.setCustomers(new Customer());
+		order.setCustomers(customer);
 	    order.setUpdatedAt(new Date());
 	    
 	    final OrderCustomer updatedOrder = orderRepository.save(order);
@@ -53,7 +62,7 @@ public class OrderService {
 	}
 	
 	public Map<String, Boolean> delete(Long id){
-		OrderCustomer order = orderRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(NOT_FOUND + id));
+		OrderCustomer order = orderRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(ExceptionStrings.ORDER_NOT_FOUND + id));
 		
 		orderRepository.delete(order);
 		

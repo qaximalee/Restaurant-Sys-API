@@ -12,11 +12,10 @@ import org.springframework.stereotype.Service;
 import com.balti.restaurant.sys.entities.Brand;
 import com.balti.restaurant.sys.exceptions.ResourceNotFoundException;
 import com.balti.restaurant.sys.repositories.BrandRepository;
+import com.balti.restaurant.sys.texts.ExceptionStrings;
 
 @Service
 public class BrandService {
-	
-	private final String NOT_FOUND = "Brand not found on :: "; 
 
 	@Autowired
 	private BrandRepository brandRepository;
@@ -28,7 +27,7 @@ public class BrandService {
 	
 	public ResponseEntity<Brand> getSingle(Long id){
 		
-		Brand brand = brandRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND + id));
+		Brand brand = brandRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(ExceptionStrings.BRAND_NOT_FOUND + id));
 		
 		return ResponseEntity.ok().body(brand);
 	}
@@ -38,7 +37,7 @@ public class BrandService {
 	}
 	
 	public ResponseEntity<Brand> update(Long id, Brand details){
-		Brand brand = brandRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(NOT_FOUND + id));
+		Brand brand = brandRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(ExceptionStrings.BRAND_NOT_FOUND + id));
 		
 		brand.setName(details.getName());
 		brand.setDescription(details.getDescription());
@@ -51,7 +50,7 @@ public class BrandService {
 	}
 	
 	public Map<String, Boolean> delete(Long id){
-		Brand brand = brandRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(NOT_FOUND + id));
+		Brand brand = brandRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(ExceptionStrings.BRAND_NOT_FOUND + id));
 		
 		brandRepository.delete(brand);
 		

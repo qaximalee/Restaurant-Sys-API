@@ -9,57 +9,65 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.balti.restaurant.sys.entities.Customer;
+import com.balti.restaurant.sys.entities.Employee;
+import com.balti.restaurant.sys.entities.ServeTable;
 import com.balti.restaurant.sys.exceptions.ResourceNotFoundException;
-import com.balti.restaurant.sys.repositories.CustomerRepository;
+import com.balti.restaurant.sys.repositories.EmployeeRepository;
+import com.balti.restaurant.sys.repositories.ServeTableRepository;
+import com.balti.restaurant.sys.texts.ExceptionStrings;
 
 @Service
 public class ServeTableService {
 	
-	private final String NOT_FOUND = "Customer not found on :: "; 
-
 	@Autowired
-	private CustomerRepository customerRepository;
+	private ServeTableRepository serveTableRepository;
+	
+	@Autowired
+	private EmployeeRepository empRepo;
 	
 	
-	public List<Customer> getAll(){
-		return customerRepository.findAll();
+	public List<ServeTable> getAll(){
+		return serveTableRepository.findAll();
 	}
 	
-	public ResponseEntity<Customer> getSingle(Long id){
+	public ResponseEntity<ServeTable> getSingle(Long id){
 		
-		Customer customer = customerRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND + id));
+		ServeTable serveTable = serveTableRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(ExceptionStrings.SERVE_TABLE_NOT_FOUND + id));
 		
-		return ResponseEntity.ok().body(customer);
+		return ResponseEntity.ok().body(serveTable);
 	}
 	
-	public Customer create(Customer customer){
-		return customerRepository.save(customer);
+	public ServeTable create(Long empId, ServeTable serveTable){
+		
+		Employee emp = empRepo.findById(empId).orElseThrow(()-> new ResourceNotFoundException(ExceptionStrings.EMPLOYEE_NOT_FOUND + empId));
+		
+		serveTable.setEmployee(emp);
+				
+		return serveTableRepository.save(serveTable);
 	}
 	
-	public ResponseEntity<Customer> update(Long id, Customer details){
-		Customer customer = customerRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(NOT_FOUND + id));
+	public ResponseEntity<ServeTable> update(Long empId, Long id, ServeTable details){
+		ServeTable serveTable = serveTableRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(ExceptionStrings.SERVE_TABLE_NOT_FOUND + id));
 		
-		customer.setEmail(details.getEmail());
-	    customer.setLastName(details.getLastName());
-	    customer.setFirstName(details.getFirstName());
-	    customer.setAddress(details.getAddress());
-	    customer.setCity(details.getCity());
-	    customer.setCountry(details.getCountry());
-	    customer.setImageUri(details.getImageUri());
-	    customer.setMobileNo(details.getMobileNo());
-	    customer.setUpdatedAt(new Date());
+		Employee emp = empRepo.findById(empId).orElseThrow(() -> new ResourceNotFoundException(ExceptionStrings.EMPLOYEE_NOT_FOUND+ empId));
+		
+		serveTable.setFloor(details.getFloor());
+		serveTable.setBlock(details.getBlock());
+		serveTable.setTableNo(details.getTableNo());
+		serveTable.setEmployee(emp);
+		
+	    serveTable.setUpdatedAt(new Date());
 	    
-	    final Customer updatedCustomer = customerRepository.save(customer);
+	    final ServeTable updatedServeTable = serveTableRepository.save(serveTable);
  	    
-	    return ResponseEntity.ok().body(updatedCustomer);
+	    return ResponseEntity.ok().body(updatedServeTable);
 		
 	}
 	
 	public Map<String, Boolean> delete(Long id){
-		Customer customer = customerRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(NOT_FOUND + id));
+		ServeTable serveTable = serveTableRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(ExceptionStrings.SERVE_TABLE_NOT_FOUND + id));
 		
-		customerRepository.delete(customer);
+		serveTableRepository.delete(serveTable);
 		
 		Map<String, Boolean> response = new HashMap<>();
 		response.put("deleted", true);

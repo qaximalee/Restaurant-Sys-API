@@ -12,11 +12,10 @@ import org.springframework.stereotype.Service;
 import com.balti.restaurant.sys.entities.Category;
 import com.balti.restaurant.sys.exceptions.ResourceNotFoundException;
 import com.balti.restaurant.sys.repositories.CategoryRepository;
+import com.balti.restaurant.sys.texts.ExceptionStrings;
 
 @Service
-public class CategoryService {
-	
-	private final String NOT_FOUND = "Category not found on :: "; 
+public class CategoryService { 
 
 	@Autowired
 	private CategoryRepository categoryRepository;
@@ -28,7 +27,7 @@ public class CategoryService {
 	
 	public ResponseEntity<Category> getSingle(Long id){
 		
-		Category category = categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND + id));
+		Category category = categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(ExceptionStrings.CATEGORY_NOT_FOUND + id));
 		
 		return ResponseEntity.ok().body(category);
 	}
@@ -38,7 +37,7 @@ public class CategoryService {
 	}
 	
 	public ResponseEntity<Category> update(Long id, Category details){
-		Category category = categoryRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(NOT_FOUND + id));
+		Category category = categoryRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(ExceptionStrings.CATEGORY_NOT_FOUND + id));
 		
 		category.setName(details.getName());
 		category.setDescription(details.getDescription());
@@ -51,7 +50,7 @@ public class CategoryService {
 	}
 	
 	public Map<String, Boolean> delete(Long id){
-		Category category = categoryRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(NOT_FOUND + id));
+		Category category = categoryRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(ExceptionStrings.CATEGORY_NOT_FOUND + id));
 		
 		categoryRepository.delete(category);
 		

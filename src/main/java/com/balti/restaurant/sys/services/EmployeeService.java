@@ -12,11 +12,10 @@ import org.springframework.stereotype.Service;
 import com.balti.restaurant.sys.entities.Employee;
 import com.balti.restaurant.sys.exceptions.ResourceNotFoundException;
 import com.balti.restaurant.sys.repositories.EmployeeRepository;
+import com.balti.restaurant.sys.texts.ExceptionStrings;
 
 @Service
 public class EmployeeService {
-	
-	private final String NOT_FOUND = "Employee not found on :: "; 
 
 	@Autowired
 	private EmployeeRepository employeeRepository;
@@ -28,7 +27,7 @@ public class EmployeeService {
 	
 	public ResponseEntity<Employee> getSingle(Long id){
 		
-		Employee employee = employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND + id));
+		Employee employee = employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(ExceptionStrings.EMPLOYEE_NOT_FOUND + id));
 		
 		return ResponseEntity.ok().body(employee);
 	}
@@ -38,7 +37,7 @@ public class EmployeeService {
 	}
 	
 	public ResponseEntity<Employee> update(Long id, Employee details){
-		Employee employee = employeeRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(NOT_FOUND + id));
+		Employee employee = employeeRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(ExceptionStrings.EMPLOYEE_NOT_FOUND + id));
 		
 		employee.setName(details.getName());
 		employee.setDesignation(details.getDesignation());
@@ -52,7 +51,7 @@ public class EmployeeService {
 	}
 	
 	public Map<String, Boolean> delete(Long id){
-		Employee employee = employeeRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(NOT_FOUND + id));
+		Employee employee = employeeRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(ExceptionStrings.EMPLOYEE_NOT_FOUND + id));
 		
 		employeeRepository.delete(employee);
 		

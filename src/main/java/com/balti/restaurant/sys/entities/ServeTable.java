@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
@@ -28,12 +29,17 @@ public class ServeTable extends AuditModel{
 	private Integer floor;
 	
 	@Column
+	@NotNull
+	private Integer tableNo;
+	
+	@Column
 	@NotBlank
 	private String block;
 	
 	
 	@ManyToOne
-	private Employee employees;
+	@JoinColumn(name = "employee_id")
+	private Employee employee;
 
 	public Long getServeTableId() {
 		return serveTableId;
@@ -59,4 +65,19 @@ public class ServeTable extends AuditModel{
 		this.block = block;
 	}
 
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
+
+	public Integer getTableNo() {
+		return tableNo;
+	}
+
+	public void setTableNo(Integer tableNo) {
+		this.tableNo = tableNo;
+	}
 }

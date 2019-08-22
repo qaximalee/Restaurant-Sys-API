@@ -12,11 +12,10 @@ import org.springframework.stereotype.Service;
 import com.balti.restaurant.sys.entities.Restaurant;
 import com.balti.restaurant.sys.exceptions.ResourceNotFoundException;
 import com.balti.restaurant.sys.repositories.RestaurantRepository;
+import com.balti.restaurant.sys.texts.ExceptionStrings;
 
 @Service
 public class RestaurantService {
-	
-	private final String NOT_FOUND = "Restaurant not found on :: "; 
 
 	@Autowired
 	private RestaurantRepository restaurantRepository;
@@ -28,7 +27,7 @@ public class RestaurantService {
 	
 	public ResponseEntity<Restaurant> getSingle(Long id){
 		
-		Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND + id));
+		Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(ExceptionStrings.RESTAURANT_NOT_FOUND + id));
 		
 		return ResponseEntity.ok().body(restaurant);
 	}
@@ -38,7 +37,7 @@ public class RestaurantService {
 	}
 	
 	public ResponseEntity<Restaurant> update(Long id, Restaurant details){
-		Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(NOT_FOUND + id));
+		Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(ExceptionStrings.RESTAURANT_NOT_FOUND + id));
 		
 		restaurant.setName(details.getName());
 		restaurant.setDescription(details.getDescription());
@@ -55,7 +54,7 @@ public class RestaurantService {
 	}
 	
 	public Map<String, Boolean> delete(Long id){
-		Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(NOT_FOUND + id));
+		Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(ExceptionStrings.RESTAURANT_NOT_FOUND + id));
 		
 		restaurantRepository.delete(restaurant);
 		
