@@ -50,7 +50,7 @@ public class CartService {
 		return ResponseEntity.ok().body(cart);
 	}*/
 	
-	public Cart create(Long itemId, Long dealId, Long customerId) {
+	public Cart create(Long itemId, Long dealId, Long customerId, Cart cartBody) {
 		Cart cart = new Cart();
 		
 		Customer customer = customerRepository.findById(customerId).orElseThrow(()-> new ResourceNotFoundException(ExceptionStrings.CUSTOMER_NOT_FOUND + customerId));
@@ -65,10 +65,22 @@ public class CartService {
 			deal = dealRepository.findById(dealId).orElseThrow(()-> new ResourceNotFoundException(ExceptionStrings.DEAL_NOT_FOUND + dealId));
 		}
 		
+		double totalAmount = 0;
+		
+		if(dealId != 0 && itemId != 0){
+			totalAmount = (item.getPrice() * cartBody.getItemQuantity()) + (deal.getPrice() * cartBody.getDealQuantity());
+		}else if(dealId != 0){
+			totalAmount = deal.getPrice() * cartBody.getDealQuantity();
+		}else if(itemId != 0){
+			totalAmount = item.getPrice() * cartBody.getItemQuantity();
+		}
 		
 		cart.setDeal(deal);
 		cart.setItem(item);
 		cart.setCustomer(customer);
+		cart.setItemQuantity(cartBody.getItemQuantity());
+		cart.setDealQuantity(cartBody.getDealQuantity());
+		cart.setTotalAmount(totalAmount);
 		return cartRepository.save(cart);
 	}
 	
@@ -84,13 +96,17 @@ public class CartService {
 	}*/
 	
 	public Map<String, Boolean> delete(Long id){
-		Cart cart = cartRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(ExceptionStrings.CART_NOT_FOUND + id));
+		//Cart cart = cartRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(ExceptionStrings.CART_NOT_FOUND + id));
 		
-		cartRepository.delete(cart);
+		//cartRepository.delete(cart);
+		cartRepository.deleteByCustomer_CustomerId(id);
 		
 		Map<String, Boolean> response = new HashMap<>();
 		response.put("deleted", true);
+		
 		return response;
+		
+		
 	}
 
 	

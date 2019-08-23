@@ -41,8 +41,8 @@ public class CartController {
   @PostMapping("/carts/{itemId}/{dealId}/{customerId}")
   public Cart createCart(@PathVariable(value = "itemId") Long itemId,
 		  @PathVariable(value = "dealId") Long dealId,
-		  @PathVariable(value = "customerId") Long customerId) {
-    return cartService.create(itemId, dealId, customerId);
+		  @PathVariable(value = "customerId") Long customerId, @RequestBody Cart cart) {
+    return cartService.create(itemId, dealId, customerId, cart);
   }
  
   /*@PostMapping("/carts/update/{id}")

@@ -52,6 +52,7 @@ public class OrderService {
 				
 		order.setStatus(details.getStatus());
 		order.setBill(details.getBill());
+		order.setTableNo(details.getTableNo());
 		order.setCustomers(customer);
 	    order.setUpdatedAt(new Date());
 	    

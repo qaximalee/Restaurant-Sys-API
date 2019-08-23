@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.balti.restaurant.sys.abstractClasses.AuditModel;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "cart")
@@ -22,6 +23,18 @@ public class Cart extends AuditModel implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long cartId;
+	
+	@Column
+	@NotNull
+	private Double totalAmount;
+	
+	@Column
+	@NotNull
+	private Integer dealQuantity;
+	
+	@Column
+	@NotNull
+	private Integer itemQuantity;
 	
 	@ManyToOne
 	@JoinColumn(columnDefinition="integer", name="itemId")
@@ -66,4 +79,30 @@ public class Cart extends AuditModel implements Serializable{
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
+
+	public Double getTotalAmount() {
+		return totalAmount;
+	}
+
+	public Integer getDealQuantity() {
+		return dealQuantity;
+	}
+
+	public Integer getItemQuantity() {
+		return itemQuantity;
+	}
+
+	public void setTotalAmount(Double totalAmount) {
+		this.totalAmount = totalAmount;
+	}
+
+	public void setDealQuantity(Integer dealQuantity) {
+		this.dealQuantity = dealQuantity;
+	}
+
+	public void setItemQuantity(Integer itemQuantity) {
+		this.itemQuantity = itemQuantity;
+	}
+	
+	
 }
