@@ -1,17 +1,13 @@
 package com.balti.restaurant.sys.services;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.balti.restaurant.sys.entities.Brand;
 import com.balti.restaurant.sys.entities.Cart;
 import com.balti.restaurant.sys.entities.Customer;
 import com.balti.restaurant.sys.entities.Deal;
@@ -39,9 +35,12 @@ public class CartService {
 	private DealRepository dealRepository;
 		
 	public List<Cart> getAll(Long customerId){
-		Customer customer = customerRepository.findById(customerId).orElseThrow(()-> new ResourceNotFoundException(ExceptionStrings.CUSTOMER_NOT_FOUND + customerId));
+		Customer customer = new Customer(); //= customerRepository.findById(customerId).orElseThrow(()-> new ResourceNotFoundException(ExceptionStrings.CUSTOMER_NOT_FOUND + customerId));
 		
-		return cartRepository.findAllByCustomer(customer);
+		customer.setCustomerId(customerId);
+		
+		return cartRepository.findByCustomer_CustomerId(customerId);
+		//return (List<Cart>) cartRepository.findAll();
 	}
 	
 	/*public ResponseEntity<Cart> getSingle(Long id){
@@ -51,7 +50,9 @@ public class CartService {
 		return ResponseEntity.ok().body(cart);
 	}*/
 	
-	public Cart create(Long itemId, Long dealId, Long customerId, @Valid Cart cart) {
+	public Cart create(Long itemId, Long dealId, Long customerId) {
+		Cart cart = new Cart();
+		
 		Customer customer = customerRepository.findById(customerId).orElseThrow(()-> new ResourceNotFoundException(ExceptionStrings.CUSTOMER_NOT_FOUND + customerId));
 		Item item = null;
 		Deal deal= null;

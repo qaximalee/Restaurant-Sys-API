@@ -1,7 +1,10 @@
 package com.balti.restaurant.sys.entities;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,18 +17,18 @@ import com.balti.restaurant.sys.abstractClasses.AuditModel;
 
 @Entity
 @Table(name = "cart")
-public class Cart extends AuditModel{
+public class Cart extends AuditModel implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long cartId;
 	
 	@ManyToOne
-	@JoinColumn(name = "itemId")
+	@JoinColumn(columnDefinition="integer", name="itemId")
 	private Item item;
 	
 	@ManyToOne
-	@JoinColumn(name = "dealId")
+	@JoinColumn(columnDefinition="integer", name="dealId")
 	private Deal deal;
 	
 	@ManyToOne
