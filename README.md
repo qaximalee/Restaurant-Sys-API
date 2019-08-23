@@ -2,7 +2,7 @@
 It is a simple rest api for Restaurant Ordering System.
 
 # Functionalities:
-1. Brand 
+1. Brand: 
 
   GET: restaurant-sys-api.com/brand-api/brands (Get all Brands)
 
