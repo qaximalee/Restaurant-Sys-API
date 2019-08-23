@@ -3,8 +3,11 @@ It is a simple rest api for Restaurant Ordering System.
 
 # Functionalities:
 1. Brand 
+
 GET: restaurant-sys-api.com/brand-api/brands (Get all Brands)
+
 GET: restaurant-sys-api.com/brand-api/brands/brandId (Get Specific Brand)
+
 POST: restaurant-sys-api.com/brand-api/brands/ (Add a Brand)
   REQUEST BODY{
     "name": "abcdef",
