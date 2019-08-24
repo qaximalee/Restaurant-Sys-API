@@ -1,5 +1,13 @@
-# Restaurant-Sys-Api
+# Restaurant-Sys-Api:
 It is a simple rest api for Restaurant Ordering System.
+
+# Modules Used:
+
+  1. Spring Boot
+  2. Spring JPA
+  3. Postgresql
+  4. Hibernate
+  5. Eclipse
 
 # Functionalities:
 1. Brand: 
